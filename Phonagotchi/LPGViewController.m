@@ -14,6 +14,7 @@
 @property (nonatomic) UIImageView *foodImageView;
 @property (nonatomic) UIImageView *bucketImageView;
 @property (nonatomic) MMPet *pet;
+@property (nonatomic) UIImageView *draggableImageView;
 
 @end
 
@@ -137,11 +138,13 @@
 
 
 #pragma mark - Gesture Recognizers
+    
     //create pan recognizer
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action: @selector(pettingThePet:)];
     //add it as a gesturerecognizer of the image view you want to work on
     [self.petImageView addGestureRecognizer:panGestureRecognizer];
     
+    //create long press recognizer
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(feedThePet:)];
     [self.foodImageView addGestureRecognizer:longPressGestureRecognizer];
    
@@ -168,6 +171,33 @@
 
 -(IBAction)feedThePet:(UILongPressGestureRecognizer *)gesture {
     NSLog(@"recognized");
+        //the gesture knows it's view, but it is generic, the view could be a button, an image, etc. In this case we know it is a UIImageView so we cast the view to be that, then that allows us to access the image
+    
+
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        
+      //  UIImageView *imageView = (UIImageView *)gesture.view;
+        self.draggableImageView = [[UIImageView alloc]initWithFrame:self.foodImageView.frame];
+                                   self.draggableImageView.image = self.foodImageView.image;
+        
+        [self.view addSubview:self.draggableImageView];
+                                   
+        
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        
+        self.draggableImageView.center = [gesture locationInView:self.view];
+        
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+      //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
+        if (CGRectIntersectsRect(self.foodImageView.frame, self.petImageView.frame)) {
+            //animate eating
+        } else {
+            //animate falling off screen
+        }
+    }
+    
+    
+    
     
     
 }
