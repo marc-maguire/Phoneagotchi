@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MMPet.h"
 
-@interface LPGViewController : UIViewController
+
+@interface LPGViewController  : UIViewController <CatProtocol>
 
 
 

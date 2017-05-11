@@ -36,6 +36,7 @@
     self.petImageView.image = [UIImage imageNamed:@"default"];
     self.petImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.petImageView];
+    self.pet.delegate = self;
     
     self.bucketImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bucket.png"]];
     self.bucketImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -152,6 +153,7 @@
    
     [self.pet awakeTimer];
     
+    
 }
 
 //cgrect intersects rect
@@ -189,6 +191,7 @@
         self.draggableImageView.center = location;
         
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        
       //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
        if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
          
@@ -200,16 +203,18 @@
     }
 }
 
--(void)deleteImageView:(UIImageView *)imageView{
-    
-    imageView.image = nil;
-    imageView = nil;
-}
+//-(void)deleteImageView:(UIImageView *)imageView{
+//    
+//    imageView.image = nil;
+//    imageView = nil;
+//}
 
 -(void)setPetStateImage {
     
     if (self.pet.isAsleep) {
         self.petImageView.userInteractionEnabled = NO;
+        self.petImageView.image = [UIImage imageNamed:@"sleeping.png"];
+        NSLog(@"No talking, me sleeping");
     }else {
         (self.petImageView.userInteractionEnabled = YES);
    

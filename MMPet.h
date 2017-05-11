@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol CatProtocol <NSObject>
+
+-(void)setPetStateImage;
+
+@end
+
 @interface MMPet : NSObject
 
 @property (nonatomic,readonly) BOOL isGrumpy;
@@ -15,18 +21,20 @@
 @property (nonatomic) NSInteger restfullness;
 @property (nonatomic) NSInteger crankyNess;
 @property (nonatomic) NSTimer *timer;
-
+@property (nonatomic) id<CatProtocol> delegate;
 
 
 //for given amount of time;
 
 
--(void)pettingAnalyzer:(CGPoint)velocity;
+- (void)pettingAnalyzer:(CGPoint)velocity;
 //the point will be points per second
 //points is an x and y value
 //can check the points explicetly. if velocity.x > somevalue  && velocity.y > somevalue)
--(void)sleep;
--(void)awakeTimer;
+- (void)sleepTimer;
+- (void)awakeTimer;
+- (void)setPetStateImage;
+- (void)makeHappy;
 
 
 @end

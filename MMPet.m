@@ -18,12 +18,12 @@
 
 @implementation MMPet
 
--(instancetype)init {
+- (instancetype)init {
     
     if (self = [super init]) {
         _isGrumpy = NO;
         _isAsleep = NO;
-        _restfullness = 120;
+        _restfullness = 60;
         _crankyNess = 0;
     }
     
@@ -43,14 +43,13 @@
     } else {
         self.isGrumpy = YES;
     }
-    
     NSLog(@"%@",(self.isGrumpy) ? @"I am GRUMPY AFFFFFF" : @"Nice petting, me no grumpy");
     NSLog(@"%ld",(long)self.crankyNess);
 }
 
 
 //for given amount of time;
--(void)sleep{
+- (void)sleepTimer{
     NSDate *date = [[NSDate alloc]init];
     
     self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(increaseRestfullness) userInfo:nil repeats:YES];
@@ -59,7 +58,7 @@
     
 }
 
--(void)awakeTimer {
+- (void)awakeTimer {
     
     NSDate *date = [[NSDate alloc]init];
     
@@ -71,7 +70,7 @@
 
 //[NSTimer *timer = [NSTimer alloc]init
 
--(CGFloat)crankyModifier {
+- (CGFloat)crankyModifier {
     
     CGFloat speedModifier = 175;
     //when cranky is maxed at 10, speed modifier will be 75
@@ -80,44 +79,37 @@
     
 }
 
-
 - (void)increaseRestfullness {
     
     NSLog(@"increasing restfulness by 5");
-    if (self.restfullness <= 120) {
+    if (self.restfullness <= 55) {
         self.restfullness += 5;
         [self decrankify];
+ 
     } else {
-        self.restfullness = 120;
-    }
-    
-    
-    if (self.restfullness == 120) {
+        self.isAsleep = NO;
+        NSLog(@"Waking up!");
         [self.timer invalidate];
         [self awakeTimer];
-        NSLog(@"waking up");
     }
+    [self setPetStateImage];
 }
 
--(void)decreaseRestfullness {
+- (void)decreaseRestfullness {
     
     NSLog(@"decreasing restfulness by 5");
-    if (self.restfullness >= 0) {
+    if (self.restfullness >= 5) {
         self.restfullness -= 5;
         [self crankify];
     } else {
-        self.restfullness = 0;
-    }
-
-    if (self.restfullness == 0) {
-        [self.timer invalidate];
-        [self sleep];
+        self.isAsleep = YES;
         NSLog(@"Going to sleep");
+        [self.timer invalidate];
+        [self sleepTimer];
     }
-    
-
-    
+    [self setPetStateImage];
 }
+
 - (void)decrankify {
 
     if (self.crankyNess > 0) {
@@ -125,7 +117,6 @@
     } else {
         self.crankyNess = 0;
     }
-    
 }
 
 - (void)crankify {
@@ -137,6 +128,17 @@
     }
 }
 
+- (void)makeHappy{
+    self.isGrumpy = NO;
+}
+
+#pragma mark - Delegate Methods
+
+- (void)setPetStateImage {
+    
+    [self.delegate setPetStateImage];
+    
+}
 
 
 
