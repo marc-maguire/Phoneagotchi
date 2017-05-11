@@ -37,16 +37,16 @@
     self.petImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.petImageView];
     
-    self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"apple.png"]];
-    self.foodImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.foodImageView.userInteractionEnabled = YES;
-    [self.view addSubview:self.foodImageView];
-
     self.bucketImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bucket.png"]];
     self.bucketImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.bucketImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bucketImageView];
     
+    self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"apple.png"]];
+    self.foodImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.foodImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.foodImageView];
+
     self.pet = [[MMPet alloc]init];
     
     
@@ -71,6 +71,41 @@
                                                           attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0
                                                            constant:0.0]];
+
+    //constraint bucketImageView to bottom left under the foodImageView
+    //bucketImageView bottom constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1.0 constant:-18.0]];
+    
+    //bucketImageView right constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeLeftMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeftMargin
+                                                         multiplier:1.0 constant:8.0]];
+    //bucketImageView width
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:150]];
+    //bucketImageView height
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:150]];
+
+
     //constraint food image view to bottom left
     //foodimageView bottom constraint
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
@@ -78,15 +113,15 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1.0 constant:-18.0]];
-
+                                                         multiplier:1.0 constant:-50.0]];
+    
     //foodimageView left constraint
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
                                                           attribute:NSLayoutAttributeLeftMargin
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeftMargin
-                                                         multiplier:1.0 constant:8.0]];
+                                                         multiplier:1.0 constant:40.0]];
     //foodImageView width
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
                                                           attribute:NSLayoutAttributeWidth
@@ -103,40 +138,6 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:75]];
-    //constraint bucketImageView to bottom right
-    //bucketImageView bottom constraint
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1.0 constant:-18.0]];
-    
-    //bucketImageView right constraint
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                          attribute:NSLayoutAttributeRightMargin
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRightMargin
-                                                         multiplier:1.0 constant:-8.0]];
-    //bucketImageView width
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1.0
-                                                           constant:75]];
-    //bucketImageView height
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1.0
-                                                           constant:75]];
-
-
 #pragma mark - Gesture Recognizers
     
     //create pan recognizer
@@ -181,7 +182,7 @@
                                    self.draggableImageView.image = self.foodImageView.image;
         
         [self.view addSubview:self.draggableImageView];
-                                   
+        
         
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
