@@ -11,6 +11,8 @@
 @interface LPGViewController ()
 
 @property (nonatomic) UIImageView *petImageView;
+@property (nonatomic) UIImageView *foodImageView;
+@property (nonatomic) UIImageView *bucketImageView;
 @property (nonatomic) MMPet *pet;
 
 @end
@@ -53,11 +55,94 @@
     //add it as a gesturerecognizer of the image view you want to work on
     self.petImageView.userInteractionEnabled = YES;
     [self.petImageView addGestureRecognizer:panGestureRecognizer];
+    
+    //create 2 views
+    
+    //constrain apple to bottom left and bucket to bottom right
+    
+    self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"apple.png"]];
+    [self.view addSubview:self.foodImageView];
+    self.foodImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.bucketImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bucket.png"]];
+    [self.view addSubview:self.bucketImageView];
+    self.bucketImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    //foodimageView bottom constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1.0 constant:-18.0]];
 
+    //foodimageView left constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
+                                                          attribute:NSLayoutAttributeLeftMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeftMargin
+                                                         multiplier:1.0 constant:8.0]];
+    //foodImageView width
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:75]];
+    //foodImageView height
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:75]];
+    //bucketImageView bottom constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1.0 constant:-18.0]];
+    
+    //bucketImageView right constraint
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeRightMargin
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRightMargin
+                                                         multiplier:1.0 constant:-8.0]];
+    //bucketImageView width
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:75]];
+    //bucketImageView height
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:75]];
 
+    
+//    NSLayoutConstraint *foodImageBottomMarginConstraint;
+//    NSLayoutConstraint *foodImageLeftMarginConstraint;
+//    NSLayoutConstraint *foodImageWidthConstraint;
+//    NSLayoutConstraint *foodImageHeightConstraint;
+    
+    
+    
+    
 }
 
-
+//cgrect intersects rect
 
 -(IBAction)pettingThePet:(UIPanGestureRecognizer *)gesture {
                                                                                                                  
