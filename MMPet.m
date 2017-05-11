@@ -30,9 +30,7 @@
 - (void)pettingAnalyzer:(CGPoint)velocity {
     //the point will be points per second
     //points is an x and y value
-    //in order to take direction of the drag (+ or - values as x and y change) then you need to calculate the pythagor
-    //can check the points explicetly. if velocity.x > somevalue  && velocity.y > somevalue)
-    
+    //in order to take direction out of the drag (+ or - values as x and y change) then you need to calculate the pythagorean theorum. This leaves you with a CG Point representing points per second moved in ANY direction.
     CGFloat speed = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
     
     if (speed < 150) {
