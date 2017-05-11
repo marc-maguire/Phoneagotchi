@@ -13,6 +13,7 @@
 
 @property (nonatomic,readwrite) BOOL isGrumpy;
 
+
 @end
 
 @implementation MMPet
@@ -21,6 +22,9 @@
     
     if (self = [super init]) {
         _isGrumpy = NO;
+        _isAsleep = NO;
+        _restfullness = 120;
+        _crankyNess = 0;
     }
     
     
@@ -31,16 +35,109 @@
     //the point will be points per second
     //points is an x and y value
     //in order to take direction out of the drag (+ or - values as x and y change) then you need to calculate the pythagorean theorum. This leaves you with a CG Point representing points per second moved in ANY direction.
+    CGFloat speedLimit = [self crankyModifier];
     CGFloat speed = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
     
-    if (speed < 175) {
+    if (speed < speedLimit) {
         self.isGrumpy = NO;
     } else {
         self.isGrumpy = YES;
     }
     
     NSLog(@"%@",(self.isGrumpy) ? @"I am GRUMPY AFFFFFF" : @"Nice petting, me no grumpy");
+    NSLog(@"%ld",(long)self.crankyNess);
 }
+
+
+//for given amount of time;
+-(void)sleep{
+    NSDate *date = [[NSDate alloc]init];
+    
+    self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(increaseRestfullness) userInfo:nil repeats:YES];
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [runLoop addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    
+}
+
+-(void)awakeTimer {
+    
+    NSDate *date = [[NSDate alloc]init];
+    
+    self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(decreaseRestfullness) userInfo:nil repeats:YES];
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [runLoop addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    
+    }
+
+//[NSTimer *timer = [NSTimer alloc]init
+
+-(CGFloat)crankyModifier {
+    
+    CGFloat speedModifier = 175;
+    //when cranky is maxed at 10, speed modifier will be 75
+    speedModifier = 175 - (10 * self.crankyNess);
+    return speedModifier;
+    
+}
+
+
+- (void)increaseRestfullness {
+    
+    NSLog(@"increasing restfulness by 5");
+    if (self.restfullness <= 120) {
+        self.restfullness += 5;
+        [self decrankify];
+    } else {
+        self.restfullness = 120;
+    }
+    
+    
+    if (self.restfullness == 120) {
+        [self.timer invalidate];
+        [self awakeTimer];
+        NSLog(@"waking up");
+    }
+}
+
+-(void)decreaseRestfullness {
+    
+    NSLog(@"decreasing restfulness by 5");
+    if (self.restfullness >= 0) {
+        self.restfullness -= 5;
+        [self crankify];
+    } else {
+        self.restfullness = 0;
+    }
+
+    if (self.restfullness == 0) {
+        [self.timer invalidate];
+        [self sleep];
+        NSLog(@"Going to sleep");
+    }
+    
+
+    
+}
+- (void)decrankify {
+
+    if (self.crankyNess > 0) {
+        self.crankyNess -= 1;
+    } else {
+        self.crankyNess = 0;
+    }
+    
+}
+
+- (void)crankify {
+    
+    if (self.crankyNess < 10) {
+        self.crankyNess += 1;
+    } else {
+        self.crankyNess = 10;
+    }
+}
+
+
 
 
 

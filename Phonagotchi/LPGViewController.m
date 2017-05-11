@@ -150,7 +150,7 @@
     [self.foodImageView addGestureRecognizer:longPressGestureRecognizer];
    
    
-
+    [self.pet awakeTimer];
     
 }
 
@@ -161,11 +161,8 @@
 -(IBAction)pettingThePet:(UIPanGestureRecognizer *)gesture {
                                                                                                                  
     [self.pet pettingAnalyzer:[gesture velocityInView:self.petImageView]];
-    if (self.pet.isGrumpy) {
-        self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
-    } else {
-        self.petImageView.image = [UIImage imageNamed:@"sleeping.png"];
-    }
+    [self setPetStateImage];
+    
     // call the pettingAnalyzer method that is part of our pet class
     //feed the value from the PanGestureRecognizer sender that is velocityInView -where we pass in the view that the gesture will be happening (which can be self.view) but in this case is self.petImageView so that it only happens when the image of the pet is touched.
 }
@@ -177,6 +174,9 @@
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
         
+        if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
+            self.pet.isAsleep = NO;
+        }
       //  UIImageView *imageView = (UIImageView *)gesture.view;
         self.draggableImageView = [[UIImageView alloc]initWithFrame:self.foodImageView.frame];
                                    self.draggableImageView.image = self.foodImageView.image;
@@ -191,15 +191,11 @@
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
       //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
        if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
-            NSLog(@"intersecting!");
-//           [self deleteImageView:self.draggableImageView];
+         
         [UIImageView animateWithDuration:1.0 delay:1.0 options:0 animations:^{self.draggableImageView.alpha=0.0f;}completion:nil];
            
         } else {
-            NSLog(@"not intersecting");
             [UIImageView animateWithDuration:1.0 delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{self.draggableImageView.frame = CGRectMake((location.x),(location.y+600), self.draggableImageView.frame.size.width, self.draggableImageView.frame.size.height);} completion:nil];
-    
-            //animate falling off screen
         }
     }
 }
@@ -209,16 +205,21 @@
     imageView.image = nil;
     imageView = nil;
 }
-//- (void) moveTo:(CGPoint)destination duration:(float)secs option:(UIViewAnimationOptions)option {
-//    
-//    [UIView animateWithDuration:secs delay:0.0 options:option
-//                     animations:^{
-//                         self.frame = CGRectMake(destination.x,destination.y, self.frame.size.width, self.frame.size.height);
-//                     }
-//                     completion:nil];
-////    [self deleteImageView:imageView];
-//    
-//}
 
+-(void)setPetStateImage {
+    
+    if (self.pet.isAsleep) {
+        self.petImageView.userInteractionEnabled = NO;
+    }else {
+        (self.petImageView.userInteractionEnabled = YES);
+   
+        if (self.pet.isGrumpy) {
+            self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
+        } else {
+            self.petImageView.image = [UIImage imageNamed:@"default.png"];
+        }
+    }
+
+}
 
 @end
