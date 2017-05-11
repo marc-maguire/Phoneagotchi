@@ -33,7 +33,7 @@
     //in order to take direction out of the drag (+ or - values as x and y change) then you need to calculate the pythagorean theorum. This leaves you with a CG Point representing points per second moved in ANY direction.
     CGFloat speed = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
     
-    if (speed < 150) {
+    if (speed < 175) {
         self.isGrumpy = NO;
     } else {
         self.isGrumpy = YES;

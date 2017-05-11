@@ -17,6 +17,8 @@
 
 @implementation LPGViewController
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,10 +56,17 @@
 
 
 }
-                                                                                                             
+
+
+
 -(IBAction)pettingThePet:(UIPanGestureRecognizer *)gesture {
                                                                                                                  
     [self.pet pettingAnalyzer:[gesture velocityInView:self.petImageView]];
+    if (self.pet.isGrumpy) {
+        self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
+    } else {
+        self.petImageView.image = [UIImage imageNamed:@"sleeping.png"];
+    }
     // call the pettingAnalyzer method that is part of our pet class
     //feed the value from the PanGestureRecognizer sender that is velocityInView -where we pass in the view that the gesture will be happening (which can be self.view) but in this case is self.petImageView so that it only happens when the image of the pet is touched.
 }
