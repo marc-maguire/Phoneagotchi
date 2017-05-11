@@ -7,10 +7,11 @@
 //
 
 #import "LPGViewController.h"
-
+#import "MMPet.h"
 @interface LPGViewController ()
 
 @property (nonatomic) UIImageView *petImageView;
+@property (nonatomic) MMPet *pet;
 
 @end
 
@@ -44,7 +45,22 @@
                                                           attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0
                                                            constant:0.0]];
-    
+    self.pet = [[MMPet alloc]init];
+    //create pan recognizer
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action: @selector(pettingThePet:)];
+    //add it as a gesturerecognizer of the image view you want to work on
+    self.petImageView.userInteractionEnabled = YES;
+    [self.petImageView addGestureRecognizer:panGestureRecognizer];
+
+
 }
+                                                                                                             
+-(IBAction)pettingThePet:(UIPanGestureRecognizer *)gesture {
+                                                                                                                 
+    [self.pet pettingAnalyzer:[gesture velocityInView:self.petImageView]];
+    // call the pettingAnalyzer method that is part of our pet class
+    //feed the value from the PanGestureRecognizer sender that is velocityInView -where we pass in the view that the gesture will be happening (which can be self.view) but in this case is self.petImageView so that it only happens when the image of the pet is touched.
+}
+
 
 @end
