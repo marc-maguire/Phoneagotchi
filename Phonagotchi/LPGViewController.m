@@ -24,50 +24,53 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+
+    
+#pragma mark - set up main view and init subviews
+    
     self.view.backgroundColor = [UIColor colorWithRed:(252.0/255.0) green:(240.0/255.0) blue:(228.0/255.0) alpha:1.0];
     
     self.petImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.petImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    
     self.petImageView.image = [UIImage imageNamed:@"default"];
-    
+    self.petImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.petImageView];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.petImageView
-                                                          attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.petImageView
-                                                          attribute:NSLayoutAttributeCenterY
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    self.pet = [[MMPet alloc]init];
-    //create pan recognizer
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action: @selector(pettingThePet:)];
-    //add it as a gesturerecognizer of the image view you want to work on
-    self.petImageView.userInteractionEnabled = YES;
-    [self.petImageView addGestureRecognizer:panGestureRecognizer];
-    
-    //create 2 views
-    
-    //constrain apple to bottom left and bucket to bottom right
-    
     self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"apple.png"]];
-    [self.view addSubview:self.foodImageView];
     self.foodImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.foodImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.foodImageView];
+
     self.bucketImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bucket.png"]];
-    [self.view addSubview:self.bucketImageView];
     self.bucketImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.bucketImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bucketImageView];
     
+    self.pet = [[MMPet alloc]init];
+    
+    
+    
+#pragma mark - ImageView Constraints
+    
+
+    //center the pet image view
+    //petimageView center x
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.petImageView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    //petimageview center y
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.petImageView
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    //constraint food image view to bottom left
     //foodimageView bottom constraint
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.foodImageView
                                                           attribute:NSLayoutAttributeBottomMargin
@@ -99,6 +102,7 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:75]];
+    //constraint bucketImageView to bottom right
     //bucketImageView bottom constraint
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.bucketImageView
                                                           attribute:NSLayoutAttributeBottomMargin
@@ -131,18 +135,24 @@
                                                          multiplier:1.0
                                                            constant:75]];
 
+
+#pragma mark - Gesture Recognizers
+    //create pan recognizer
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action: @selector(pettingThePet:)];
+    //add it as a gesturerecognizer of the image view you want to work on
+    [self.petImageView addGestureRecognizer:panGestureRecognizer];
     
-//    NSLayoutConstraint *foodImageBottomMarginConstraint;
-//    NSLayoutConstraint *foodImageLeftMarginConstraint;
-//    NSLayoutConstraint *foodImageWidthConstraint;
-//    NSLayoutConstraint *foodImageHeightConstraint;
-    
-    
-    
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(feedThePet:)];
+    [self.foodImageView addGestureRecognizer:longPressGestureRecognizer];
+   
+   
+
     
 }
 
 //cgrect intersects rect
+
+#pragma mark - Gesture Methods
 
 -(IBAction)pettingThePet:(UIPanGestureRecognizer *)gesture {
                                                                                                                  
@@ -154,6 +164,12 @@
     }
     // call the pettingAnalyzer method that is part of our pet class
     //feed the value from the PanGestureRecognizer sender that is velocityInView -where we pass in the view that the gesture will be happening (which can be self.view) but in this case is self.petImageView so that it only happens when the image of the pet is touched.
+}
+
+-(IBAction)feedThePet:(UILongPressGestureRecognizer *)gesture {
+    NSLog(@"recognized");
+    
+    
 }
 
 
