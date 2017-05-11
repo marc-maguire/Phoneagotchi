@@ -173,7 +173,7 @@
 -(IBAction)feedThePet:(UILongPressGestureRecognizer *)gesture {
     NSLog(@"recognized");
         //the gesture knows it's view, but it is generic, the view could be a button, an image, etc. In this case we know it is a UIImageView so we cast the view to be that, then that allows us to access the image
-    
+    CGPoint location = [gesture locationInView:self.view];
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
         
@@ -186,22 +186,39 @@
         
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
-        self.draggableImageView.center = [gesture locationInView:self.view];
+        self.draggableImageView.center = location;
         
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
       //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
-        if (CGRectIntersectsRect(self.foodImageView.frame, self.petImageView.frame)) {
-            //animate eating
+       if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
+            NSLog(@"intersecting!");
+//           [self deleteImageView:self.draggableImageView];
+        [UIImageView animateWithDuration:1.0 delay:1.0 options:0 animations:^{self.draggableImageView.alpha=0.0f;}completion:nil];
+           
         } else {
+            NSLog(@"not intersecting");
+            [UIImageView animateWithDuration:1.0 delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{self.draggableImageView.frame = CGRectMake((location.x),(location.y+600), self.draggableImageView.frame.size.width, self.draggableImageView.frame.size.height);} completion:nil];
+    
             //animate falling off screen
         }
     }
-    
-    
-    
-    
-    
 }
+
+-(void)deleteImageView:(UIImageView *)imageView{
+    
+    imageView.image = nil;
+    imageView = nil;
+}
+//- (void) moveTo:(CGPoint)destination duration:(float)secs option:(UIViewAnimationOptions)option {
+//    
+//    [UIView animateWithDuration:secs delay:0.0 options:option
+//                     animations:^{
+//                         self.frame = CGRectMake(destination.x,destination.y, self.frame.size.width, self.frame.size.height);
+//                     }
+//                     completion:nil];
+////    [self deleteImageView:imageView];
+//    
+//}
 
 
 @end
