@@ -194,7 +194,8 @@
         
       //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
        if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
-         
+           self.pet.isAsleep = NO;
+           [self setPetStateImage];
         [UIImageView animateWithDuration:1.0 delay:1.0 options:0 animations:^{self.draggableImageView.alpha=0.0f;}completion:nil];
            
         } else {
@@ -212,8 +213,8 @@
 -(void)setPetStateImage {
     
     if (self.pet.isAsleep) {
-        self.petImageView.userInteractionEnabled = NO;
         self.petImageView.image = [UIImage imageNamed:@"sleeping.png"];
+        self.petImageView.userInteractionEnabled = NO;
         NSLog(@"No talking, me sleeping");
     }else {
         (self.petImageView.userInteractionEnabled = YES);

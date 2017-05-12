@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+//interuption wakes up the pet but the timers still go in the wrong direction
+//pet does not fall asleep if there is no user interaction
+
+
 @protocol CatProtocol <NSObject>
 
 -(void)setPetStateImage;
