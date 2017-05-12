@@ -179,7 +179,6 @@
         if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
             self.pet.isAsleep = NO;
         }
-      //  UIImageView *imageView = (UIImageView *)gesture.view;
         self.draggableImageView = [[UIImageView alloc]initWithFrame:self.foodImageView.frame];
                                    self.draggableImageView.image = self.foodImageView.image;
         
@@ -193,9 +192,12 @@
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
         
       //if stopped location is within bounds of cat image, feed cat, if not, animate off screen.
-       if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
-           self.pet.isAsleep = NO;
-           [self setPetStateImage];
+        if (CGRectIntersectsRect(self.draggableImageView.frame, self.petImageView.frame)) {
+            
+            [self.pet makeHappy];
+            self.pet.isAsleep = NO;
+            [self setPetStateImage];
+            
         [UIImageView animateWithDuration:1.0 delay:1.0 options:0 animations:^{self.draggableImageView.alpha=0.0f;}completion:nil];
            
         } else {
