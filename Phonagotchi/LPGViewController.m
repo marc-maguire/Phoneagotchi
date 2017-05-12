@@ -15,6 +15,7 @@
 @property (nonatomic) UIImageView *bucketImageView;
 @property (nonatomic) MMPet *pet;
 @property (nonatomic) UIImageView *draggableImageView;
+@property (nonatomic) NSTimer *timer;
 
 @end
 
@@ -152,6 +153,7 @@
    
    
     [self.pet awakeTimer];
+    [self petStateCheckTimer];
     
     
 }
@@ -228,6 +230,16 @@
         }
     }
 
+}
+
+//image checking timer
+- (void)petStateCheckTimer {
+    NSDate *date = [[NSDate alloc]init];
+    
+    self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(setPetStateImage) userInfo:nil repeats:YES];
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [runLoop addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    
 }
 
 @end
