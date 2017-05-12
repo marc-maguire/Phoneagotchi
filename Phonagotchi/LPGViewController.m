@@ -8,6 +8,7 @@
 
 #import "LPGViewController.h"
 #import "MMPet.h"
+
 @interface LPGViewController ()
 
 @property (nonatomic) UIImageView *petImageView;

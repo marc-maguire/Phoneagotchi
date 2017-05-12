@@ -7,7 +7,7 @@
 //
 
 #import "MMPet.h"
-//#include "math.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface MMPet()
 
@@ -39,6 +39,7 @@
     
     if (speed < speedLimit) {
         self.isGrumpy = NO;
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     } else {
         self.isGrumpy = YES;
     }
@@ -49,8 +50,8 @@
 
 //for given amount of time;
 - (void)sleepTimer{
-    self.isAsleep = YES;
-    [self setPetStateImage];
+//    self.isAsleep = YES;
+//    [self setPetStateImage];
     NSDate *date = [[NSDate alloc]init];
     
     self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(increaseRestfullness) userInfo:nil repeats:YES];
@@ -60,8 +61,8 @@
 }
 
 - (void)awakeTimer {
-    self.isAsleep = NO;
-    [self setPetStateImage];
+//    self.isAsleep = NO;
+//    [self setPetStateImage];
     NSDate *date = [[NSDate alloc]init];
     
     self.timer = [[NSTimer alloc]initWithFireDate:[date dateByAddingTimeInterval:5.0] interval:5.0 target:self selector:@selector(decreaseRestfullness) userInfo:nil repeats:YES];

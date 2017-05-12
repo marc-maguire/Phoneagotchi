@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 
 //interuption wakes up the pet but the timers still go in the wrong direction
-//pet does not fall asleep if there is no user interaction
-
+//game currently runs on 5 second intervals - but if you wake up the pet in the middle of an interval, you could jump outside this, remember to handle
 
 @protocol CatProtocol <NSObject>
 
