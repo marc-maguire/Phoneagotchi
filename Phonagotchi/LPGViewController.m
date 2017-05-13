@@ -45,7 +45,7 @@
     self.bucketImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bucketImageView];
     
-    self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"apple.png"]];
+    self.foodImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"gold.png"]];
     self.foodImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.foodImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.foodImageView];
@@ -204,7 +204,7 @@
         [UIImageView animateWithDuration:1.0 delay:1.0 options:0 animations:^{self.draggableImageView.alpha=0.0f;}completion:nil];
            
         } else {
-            [UIImageView animateWithDuration:1.0 delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{self.draggableImageView.frame = CGRectMake((location.x),(location.y+600), self.draggableImageView.frame.size.width, self.draggableImageView.frame.size.height);} completion:nil];
+            [UIImageView animateWithDuration:1.0 delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{self.draggableImageView.frame = CGRectMake((location.x-600),(location.y), self.draggableImageView.frame.size.width, self.draggableImageView.frame.size.height);} completion:nil];
         }
     }
 }
